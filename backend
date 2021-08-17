@@ -1,0 +1,30 @@
+node {
+    def app
+    stage('Clone repository') {
+        git branch: "main", url: "git@github.com:YaroslavVoloshchuk/digichlist-api.git"
+    }
+    stage('Build image') {
+        sh "docker build -t digic-be:latest -t digic-be:build-1.0.$BUILD_NUMBER ."
+    }
+    stage('Push image') {
+        docker.withRegistry('https://903120719010.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:access-aws') {
+            sh "docker tag digic-front:latest 903120719010.dkr.ecr.us-east-1.amazonaws.com/digichlist-backend:latest"
+            sh "docker tag digic-front:build-1.0.$BUILD_NUMBER 903120719010.dkr.ecr.us-east-1.amazonaws.com/digichlist-backend:build-1.0.$BUILD_NUMBER"
+            sh "docker push 903120719010.dkr.ecr.us-east-1.amazonaws.com/digichlist-backend:latest"
+            sh "docker push 903120719010.dkr.ecr.us-east-1.amazonaws.com/digichlist-backend:build-1.0.$BUILD_NUMBER"
+        }
+    }
+    
+        // stage('Instance refresh') {
+            
+            
+        //  withAWS(credentials: 'access-aws', region: 'us-east-1') { 
+        //  sh "aws autoscaling start-instance-refresh --auto-scaling-group-name tf-asg-----" 
+        //  }
+         
+        // }
+    
+    stage('CleanWorkspace') {
+                cleanWs()
+        }
+}
