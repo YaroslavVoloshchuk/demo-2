@@ -11,16 +11,16 @@ variable "availability_zone_2" {
 
 
 variable "aws_key_path" {
-  default  = "/home/bamik/.ssh/aws_demo.pem"
+  default  = ""
 }
 
 variable "access_key" {
-  default  = "AKIA5ERRQRSRLATYGOMJ"
+  default  = ""
 
 }
 
 variable "secret_key" {
-  default  = "E0X7tn9novFi+/T3UE3sfb/kHAvOQejs793oO33x"
+  default  = ""
 }
 
 variable "aws_instance_ami" {
